@@ -14,7 +14,7 @@ export default function RootLayout() {
       <div className="sticky top-0 z-50  bg-base-100">
         <Navbar />
       </div>
-      <div className="min-h-screen mx-auto">
+      <div className="min-h-screen border-2 mx-auto">
         <Outlet />
         <ToastContainer />
       </div>
