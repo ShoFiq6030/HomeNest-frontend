@@ -8,7 +8,7 @@ import {
 } from "react-icons/fa";
 import { Link } from "react-router";
 
-export default function PropertyOverlayCard({ property = {} }) {
+export default function PropertyOverlayCard({ property }) {
   // Destructure with defaults
   console.log(property);
   const {
@@ -30,15 +30,15 @@ export default function PropertyOverlayCard({ property = {} }) {
     <div className="relative w-full max-w-sm mr-10  ">
       {/* FOR SALE Tag */}
       <div className="absolute -top-3 left-4 z-10 ">
-        <span className="bg-pink-600 text-white uppercase text-xs font-semibold tracking-wider px-4 py-1 rounded">
+        <span className="bg-pink-600 text-white uppercase text-xs font-semibold tracking-wider px-4 py-1 ">
           {category}
         </span>
       </div>
 
       {/* Main Card */}
       <div
-        className="bg-white p-6 pt-10 rounded-2xl shadow-lg 
-                    hover:shadow-2xl hover:scale-[1.02]"
+        className="bg-white p-6 pt-10  shadow-lg flex flex-col gap-3
+                   "
       >
         {/* Title */}
         <h2 className="text-xl font-extrabold mb-1">{propertyName}</h2>
@@ -86,7 +86,7 @@ export default function PropertyOverlayCard({ property = {} }) {
         {/* View Details Button */}
         {property?._id && (
           <Link to={`/property/${_id}`}>
-            <button className="mt-5 w-full bg-pink-600 text-white py-2 rounded-md font-semibold hover:bg-pink-100 pointer-coarse:">
+            <button className="mt-5 w-full bg-pink-600 text-white py-2 rounded-md font-semibold ">
               View Details
             </button>
           </Link>

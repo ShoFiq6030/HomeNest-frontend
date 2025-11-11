@@ -25,7 +25,7 @@ export default function HeroSection() {
   if (!data || data.length === 0) return null;
 
   return (
-    <div className="relative w-screen h-[300px] md:h-[600px] lg:h-[60vh] overflow-hidden">
+    <div className="relative w-screen h-[300px] md:h-[600px] lg:h-[80vh] overflow-hidden">
       {data.slice(0, 3).map((property, index) => {
         const bgUrl =
           property.image ||
@@ -39,7 +39,7 @@ export default function HeroSection() {
             } bg-cover bg-center`}
             style={{ backgroundImage: `url(${bgUrl})` }}
           >
-            <div className="w-full h-full bg-black/20 flex items-center justify-end">
+            <div className="w-full h-full bg-black/10 flex items-center justify-end">
               <PropertyOverlayCard property={property} />
             </div>
           </div>
