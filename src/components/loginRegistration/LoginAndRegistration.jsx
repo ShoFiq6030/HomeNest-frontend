@@ -68,7 +68,7 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
         </h2>
 
         {/* 5. Social Logins */}
-        
+
         <div className="flex flex-col gap-3">
           <SocialButton
             icon={<FaGoogle />}
@@ -146,9 +146,14 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
               onSubmit={(e) => e.preventDefault()}
               className="text-gray-700"
             >
-                <FormInput label="Username" id="reg_username" />
+              <FormInput label="Username" id="reg_username" />
               <FormInput label="Email Address" id="reg_email" />
-             
+              <fieldset className="fieldset pb-4">
+                <legend className="fieldset-legend">Photo</legend>
+                <input type="file" className="file-input" />
+                <label className="label">Max size 2MB</label>
+              </fieldset>
+
               <FormInput label="Password" type="password" id="reg_password" />
 
               <button

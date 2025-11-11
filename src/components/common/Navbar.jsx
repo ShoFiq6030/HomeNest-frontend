@@ -9,7 +9,7 @@ import LoginAndRegistration from "../loginRegistration/LoginAndRegistration";
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = async () => {
     try {
