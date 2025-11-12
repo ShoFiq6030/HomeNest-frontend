@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FaFacebookF, FaTwitter, FaTimes, FaGoogle } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useAuth } from "../../hooks/useAuth";
 
 /**
  * Helper component for Social Login Buttons
@@ -43,6 +44,7 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState("login");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { user, login, logout, authLoading } = useAuth();
 
   if (!isOpen) return null;
 
@@ -61,7 +63,11 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
       );
 
       if (res.status === 200) {
-        toast.success("Login successful:", res.data);
+        toast.success("Login successful:");
+        // localStorage.setItem("token", res.data.token);
+        const token = res.data.token;
+        const user = res.data.user;
+        login(token, user);
 
         console.log(res);
         // TODO: store token, close modal, etc.
@@ -79,7 +85,7 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
     }
   };
 
-  console.log(error);
+  // console.log(error);
   return (
     // 1. Backdrop
     <div

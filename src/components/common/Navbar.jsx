@@ -1,15 +1,15 @@
 import React, { useState, useContext } from "react";
 import { Link, NavLink } from "react-router";
-import { FaBars, FaTimes, FaChevronDown, FaPlus } from "react-icons/fa";
-
+import { FaBars, FaTimes, FaChevronDown, FaPlus, FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
-import { AuthContext } from "./../../provider/AuthProvider";
 import LoginAndRegistration from "../loginRegistration/LoginAndRegistration";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showUserDropDown, setShowUserDropDown] = useState(false);
 
   const handleLogout = async () => {
     try {
@@ -79,32 +79,46 @@ export default function Navbar() {
           ) : (
             // 🔹 Logged-in dropdown
             <div className="relative group">
-              <div className="flex items-center space-x-2 cursor-pointer">
-                <img
-                  src={user.photoURL || "https://i.pravatar.cc/40"}
-                  alt="User"
-                  className="h-9 w-9 rounded-full border"
-                />
+              <div
+                className="flex items-center space-x-2 cursor-pointer"
+                onClick={() => setShowUserDropDown(!showUserDropDown)}
+              >
+                {user.photoURL ? (
+                  <img
+                    src={user.photoURL || "https://i.pravatar.cc/40"}
+                    alt="User"
+                    className="h-9 w-9 rounded-full border"
+                  />
+                ) : (
+                  <div className="w-12 h-12 flex items-center justify-center bg-pink-100 rounded-full">
+                    <FaUser className="text-pink-600 text-xl" />
+                  </div>
+                )}
+
                 <FaChevronDown
                   size={12}
-                  className="text-gray-600 group-hover:rotate-180 transition-transform"
+                  className={`text-gray-600 ${
+                    showUserDropDown && "rotate-180"
+                  } transition-transform`}
                 />
               </div>
-              <div className="absolute right-0 mt-3 hidden group-hover:block bg-white rounded-lg shadow-md border w-48 p-3 text-sm">
-                <p className="font-medium text-gray-800 truncate">
-                  {user.displayName || "User"}
-                </p>
-                <p className="text-gray-500 text-xs mb-2 truncate">
-                  {user.email}
-                </p>
-                <hr className="my-2" />
-                <button
-                  onClick={handleLogout}
-                  className="w-full text-left text-red-600 hover:text-red-700 font-medium"
-                >
-                  Log out
-                </button>
-              </div>
+              {showUserDropDown && (
+                <div className="absolute right-0 mt-3   bg-white rounded-lg shadow-md border w-48 p-3 text-sm">
+                  <p className="font-medium text-gray-800 truncate">
+                    {user.name || "User"}
+                  </p>
+                  <p className="text-gray-500 text-xs mb-2 truncate">
+                    {user.email}
+                  </p>
+                  <hr className="my-2" />
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left text-red-600 hover:text-red-700 font-medium"
+                  >
+                    Log out
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
