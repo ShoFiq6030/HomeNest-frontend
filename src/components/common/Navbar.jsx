@@ -4,11 +4,13 @@ import { FaBars, FaTimes, FaChevronDown, FaPlus, FaUser } from "react-icons/fa";
 import { toast } from "react-toastify";
 import LoginAndRegistration from "../loginRegistration/LoginAndRegistration";
 import { useAuth } from "../../hooks/useAuth";
+import AddPropertyModal from "./AddPropertyModal";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
   const [showUserDropDown, setShowUserDropDown] = useState(false);
 
   const handleLogout = async () => {
@@ -23,13 +25,19 @@ export default function Navbar() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "All Properties", path: "/all-properties" },
-    { name: "Add Property", path: "/add-property", private: true },
+    // { name: "Add Property", path: "/add-property", private: true },
     { name: "My Properties", path: "/my-properties", private: true },
     { name: "My Ratings", path: "/my-ratings", private: true },
   ];
+  const handleAddPropertyModal = () => {
+    setIsAddPropertyModalOpen(!isAddPropertyModalOpen);
+  };
 
   return (
     <nav className="w-full bg-white shadow-md  sticky top-0 z-50">
+      {isAddPropertyModalOpen && (
+        <AddPropertyModal onClose={() => setIsAddPropertyModalOpen(false)} />
+      )}
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         <LoginAndRegistration
           isOpen={isModalOpen}
@@ -124,13 +132,13 @@ export default function Navbar() {
 
           {/* ✅ Add Property Button (always visible for logged in users) */}
           {user && (
-            <Link
-              to="/add-property"
+            <button
               className="flex items-center space-x-2 bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition"
+              onClick={handleAddPropertyModal}
             >
               <FaPlus />
               <span>Add Property</span>
-            </Link>
+            </button>
           )}
         </div>
 
