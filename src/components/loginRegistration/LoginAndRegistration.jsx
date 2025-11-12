@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FaFacebookF, FaTwitter, FaTimes, FaGoogle } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 /**
  * Helper component for Social Login Buttons
@@ -27,6 +29,7 @@ const FormInput = ({ label, type = "text", id }) => (
     <input
       type={type}
       id={id}
+      name={id}
       className="w-full p-3 border border-gray-300 rounded-md bg-gray-50 focus:outline-none focus:ring-2 focus:ring-red-300 transition-all"
       placeholder={`Enter your ${label.split(" ")[0].toLowerCase()}`}
     />
@@ -38,10 +41,45 @@ const FormInput = ({ label, type = "text", id }) => (
  */
 export default function LoginAndRegistration({ isOpen, onClose }) {
   const [activeTab, setActiveTab] = useState("login");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  // Don't render anything if the modal is not open
   if (!isOpen) return null;
 
+  const handleLoginSubmit = async (e) => {
+    e.preventDefault();
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/login`,
+        { email, password }
+      );
+
+      if (res.status === 200) {
+        toast.success("Login successful:", res.data);
+
+        console.log(res);
+        // TODO: store token, close modal, etc.
+        // onClose();
+      }
+    } catch (err) {
+      console.error("login error:", err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Login failed. Please check your credentials.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  console.log(error);
   return (
     // 1. Backdrop
     <div
@@ -117,13 +155,16 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
         <div>
           {/* Login Form */}
           {activeTab === "login" && (
-            <form onSubmit={(e) => e.preventDefault()}>
-              <FormInput label="Email Address" id="username" />
+            <form onSubmit={handleLoginSubmit}>
+              <FormInput label="Email Address" id="email" />
               <FormInput label="Password" type="password" id="password" />
+
+              {error && <p className="text-red-700 text-sm mt-2">{error}</p>}
 
               <button
                 type="submit"
-                className="w-full bg-pink-600 text-white py-3 rounded-md font-semibold hover:bg-pink-700 transition-colors"
+                disabled={loading}
+                className="w-full bg-pink-600 text-white py-3 rounded-md font-semibold hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Log In
               </button>

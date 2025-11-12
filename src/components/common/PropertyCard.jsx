@@ -9,12 +9,14 @@ import {
   FaCamera,
 } from "react-icons/fa";
 import { FiHeart } from "react-icons/fi";
+import { Link } from "react-router";
 
 export default function PropertyCard({ property = {} }) {
   const {
+    _id,
     featured = false,
     category = "For Sale",
-    name = "Real House Luxury Villa",
+    propertyName = "Real House Luxury Villa",
     location = "Est St, 77 - Central Park South, NYC",
     Bedrooms = 6,
     Bath = 3,
@@ -53,7 +55,12 @@ export default function PropertyCard({ property = {} }) {
 
       {/* Property Details */}
       <div className="p-4">
-        <h3 className="font-semibold text-lg">{name}</h3>
+        <Link
+          to={`/all-properties/${_id}`}
+          className="font-semibold text-lg hover:underline cursor-pointer"
+        >
+          {propertyName}
+        </Link>
         <p className="flex items-center text-sm text-gray-500 mt-1">
           <FaMapMarkerAlt className="mr-2 text-gray-400" /> {location}
         </p>
