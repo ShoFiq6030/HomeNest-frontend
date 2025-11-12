@@ -12,6 +12,7 @@ export default function Navbar() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isAddPropertyModalOpen, setIsAddPropertyModalOpen] = useState(false);
   const [showUserDropDown, setShowUserDropDown] = useState(false);
+  const [activeTab, setActiveTab] = useState("login");
 
   const handleLogout = async () => {
     try {
@@ -41,6 +42,8 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
         <LoginAndRegistration
           isOpen={isModalOpen}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
           onClose={() => setIsModalOpen(false)}
         />
         {/* ✅ Logo */}
@@ -77,10 +80,16 @@ export default function Navbar() {
               className="flex items-center gap-4"
               onClick={() => setIsModalOpen(true)}
             >
-              <button className="text-gray-700 hover:text-pink-600 transition">
+              <button
+                onClick={() => setActiveTab("login")}
+                className="text-gray-700 hover:text-pink-600 transition"
+              >
                 Login
               </button>
-              <button className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition">
+              <button
+                onClick={() => setActiveTab("register")}
+                className="bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition"
+              >
                 Sign Up
               </button>
             </div>
@@ -121,7 +130,7 @@ export default function Navbar() {
                   <hr className="my-2" />
                   <button
                     onClick={handleLogout}
-                    className="w-full text-left text-red-600 hover:text-red-700 font-medium"
+                    className="w-full text-left text-red-600 hover:text-red-700 font-medium cursor-pointer"
                   >
                     Log out
                   </button>

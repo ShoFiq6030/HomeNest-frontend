@@ -1,8 +1,14 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+
+import app from "../utils/firebaseConfig";
 
 // Create context
 export const AuthContext = createContext();
+
+const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 // Provider
 export const AuthProvider = ({ children }) => {
@@ -22,9 +28,12 @@ export const AuthProvider = ({ children }) => {
 
   const fetchUserProfile = async (token) => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/api/users/token/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/token/profile`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
       setUser(res.data);
     } catch (err) {
       console.error("Failed to fetch user profile:", err);
@@ -32,6 +41,10 @@ export const AuthProvider = ({ children }) => {
     } finally {
       setAuthLoading(false);
     }
+  };
+  // google login with firebase
+  const googleSignin = () => {
+    return signInWithPopup(auth, provider);
   };
 
   const login = (token, userData) => {
@@ -45,7 +58,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, authLoading }}>
+    <AuthContext.Provider
+      value={{ user, login, logout, authLoading, googleSignin, setUser }}
+    >
       {children}
     </AuthContext.Provider>
   );

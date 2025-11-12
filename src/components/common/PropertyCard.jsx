@@ -28,7 +28,7 @@ export default function PropertyCard({ property = {} }) {
   const formattedPrice = price?.toLocaleString();
 
   return (
-    <div className="bg-white rounded-2xl w-[300px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+    <div className="bg-white  w-[300px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
       {/* Image Section */}
       <div className="relative">
         <img src={image} alt={name} className="w-full h-56 object-cover" />

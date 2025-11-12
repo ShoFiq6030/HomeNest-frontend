@@ -40,11 +40,6 @@ let router = createBrowserRouter([
         path: "/my-ratings",
         element: <MyRatingsPage />,
       },
-
-      {
-        path: "*",
-        element: <NotFoundPage />,
-      },
     ],
   },
   {

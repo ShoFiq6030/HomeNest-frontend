@@ -4,21 +4,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
 
-/**
- * Helper component for Social Login Buttons
- */
-const SocialButton = ({ icon, text, bgColor }) => (
-  <button
-    className={`flex items-center justify-center w-full py-3 rounded-md  font-semibold ${bgColor} hover:opacity-90 transition-opacity`}
-  >
-    {icon}
-    <span className="ml-2">{text}</span>
-  </button>
-);
+// Helper component for Form Inputs
 
-/**
- * Helper component for Form Inputs
- */
 const FormInput = ({ label, type = "text", id }) => (
   <div className="mb-4">
     <label
@@ -40,11 +27,15 @@ const FormInput = ({ label, type = "text", id }) => (
 /**
  * Main Login Modal Component
  */
-export default function LoginAndRegistration({ isOpen, onClose }) {
-  const [activeTab, setActiveTab] = useState("login");
+export default function LoginAndRegistration({
+  isOpen,
+  onClose,
+  activeTab,
+  setActiveTab,
+}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { user, login, logout, authLoading } = useAuth();
+  const { user, setUser, login, logout, authLoading, googleSignin } = useAuth();
 
   if (!isOpen) return null;
 
@@ -69,9 +60,8 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
         const user = res.data.user;
         login(token, user);
 
-        console.log(res);
-        // TODO: store token, close modal, etc.
-        // onClose();
+        // console.log(res);
+        onClose();
       }
     } catch (err) {
       console.error("login error:", err);
@@ -79,6 +69,44 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
         err?.response?.data?.message ||
         err?.message ||
         "Login failed. Please check your credentials.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleSignin = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const result = await googleSignin();
+      const user = result.user;
+
+      // console.log(user);
+      // Get Firebase-issued ID token (verified JWT from Google)
+      const idToken = await user.getIdToken();
+      // console.log(idToken);
+
+      // Send it to your backend for verification + DB entry
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/google-login`,
+        {
+          firebaseToken: idToken,
+        }
+      );
+
+      // Backend returns your app's token and user data
+      // console.log(res);
+
+      localStorage.setItem("token", res.data.token);
+      setUser(res.data.user);
+      toast.success("google login successful ");
+      onClose();
+      // console.log("Google login successful:", res.data);
+    } catch (err) {
+      console.error("Google login error:", err);
+      const msg =
+        err?.response?.data?.message || err?.message || "Google login failed!";
       setError(msg);
     } finally {
       setLoading(false);
@@ -114,16 +142,39 @@ export default function LoginAndRegistration({ isOpen, onClose }) {
         {/* 5. Social Logins */}
 
         <div className="flex flex-col gap-3">
-          <SocialButton
-            icon={<FaGoogle />}
-            text="Log in with Google"
-            bgColor="bg-gray-200"
-          />
-          {/* <SocialButton
-            icon={<FaTwitter />}
-            text="Log in with Twitter"
-            bgColor="bg-sky-500"
-          /> */}
+          <button
+            className="btn bg-white text-black border-[#e5e5e5]"
+            onClick={handleGoogleSignin}
+          >
+            <svg
+              aria-label="Google logo"
+              width="16"
+              height="16"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+            >
+              <g>
+                <path d="m0 0H512V512H0" fill="#fff"></path>
+                <path
+                  fill="#34a853"
+                  d="M153 292c30 82 118 95 171 60h62v48A192 192 0 0190 341"
+                ></path>
+                <path
+                  fill="#4285f4"
+                  d="m386 400a140 175 0 0053-179H260v74h102q-7 37-38 57"
+                ></path>
+                <path
+                  fill="#fbbc02"
+                  d="m90 341a208 200 0 010-171l63 49q-12 37 0 73"
+                ></path>
+                <path
+                  fill="#ea4335"
+                  d="m153 219c22-69 116-109 179-50l55-54c-78-75-230-72-297 55"
+                ></path>
+              </g>
+            </svg>
+            Login with Google
+          </button>
         </div>
 
         {/* 6. "Or" Separator */}
