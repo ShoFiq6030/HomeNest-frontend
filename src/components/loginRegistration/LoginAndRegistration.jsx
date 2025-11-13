@@ -3,6 +3,7 @@ import { FaFacebookF, FaTwitter, FaTimes, FaGoogle } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useAuth } from "../../hooks/useAuth";
+import { photoUploadToCloudinary } from "../../utils/uploadImgToCloudinary";
 
 // Helper component for Form Inputs
 
@@ -112,7 +113,51 @@ export default function LoginAndRegistration({
       setLoading(false);
     }
   };
+  const handleSignupSubmit = async (e) => {
+    e.preventDefault();
+    const name = e.target.name.value;
+    const email = e.target.email.value;
+    const photoFile = e.target.photo.files[0];
+    const password = e.target.password.value;
+    console.log(photoFile);
+    setLoading(true);
+    setError(null);
 
+    try {
+      // Upload photo to Cloudinary
+      let photoURL;
+      if (photoFile) {
+        photoURL = await photoUploadToCloudinary(photoFile);
+        console.log("Uploaded photo URL:", photoURL);
+      }
+
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/users/signup`,
+        { name, email, password, photoURL }
+      );
+
+      if (res.status === 201) {
+        toast.success("Signup successful:");
+        // localStorage.setItem("token", res.data.token);
+        // const token = res.data.token;
+        // const user = res.data.user;
+        // login(token, user);
+
+        // console.log(res);
+        // onClose();
+        setActiveTab("login");
+      }
+    } catch (err) {
+      console.error("login error:", err);
+      const msg =
+        err?.response?.data?.message ||
+        err?.message ||
+        "Login failed. Please check your credentials.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
   // console.log(error);
   return (
     // 1. Backdrop
@@ -240,19 +285,16 @@ export default function LoginAndRegistration({
 
           {/* Register Form (Placeholder) */}
           {activeTab === "register" && (
-            <form
-              onSubmit={(e) => e.preventDefault()}
-              className="text-gray-700"
-            >
-              <FormInput label="Username" id="reg_username" />
-              <FormInput label="Email Address" id="reg_email" />
+            <form onSubmit={handleSignupSubmit} className="text-gray-700">
+              <FormInput label="Username" id="name" />
+              <FormInput label="Email Address" id="email" />
               <fieldset className="fieldset pb-4">
                 <legend className="fieldset-legend">Photo</legend>
-                <input type="file" className="file-input" />
+                <input type="file" className="file-input" name="photo" />
                 <label className="label">Max size 2MB</label>
               </fieldset>
 
-              <FormInput label="Password" type="password" id="reg_password" />
+              <FormInput label="Password" type="password" id="password" />
 
               <button
                 type="submit"
