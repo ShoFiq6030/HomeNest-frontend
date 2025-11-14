@@ -5,12 +5,14 @@ import "./style.css";
 import { RouterProvider } from "react-router";
 import router from "./router/Router";
 import { AuthProvider } from "./context/AuthContext";
+import LoginAndSignUpContextProvider from "./context/LoginAndSignUpContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
-      {/* <h1>hello</h1> */}
+      <LoginAndSignUpContextProvider>
+        <RouterProvider router={router} />
+      </LoginAndSignUpContextProvider>
     </AuthProvider>
   </StrictMode>
 );

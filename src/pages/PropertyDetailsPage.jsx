@@ -12,6 +12,7 @@ import { useApi } from "../hooks/useApi";
 import Loading from "../components/common/Loading";
 import PropertyReviews from "../components/PropertyDetailsPage/PropertyReviews";
 import ReviewForm from "../components/PropertyDetailsPage/ReviweForm";
+import PropertyReviewFormAndCard from "../components/PropertyDetailsPage/PropertyReviewFormAndCard";
 
 export default function PropertyDetailsPage() {
   const { id } = useParams();
@@ -126,8 +127,8 @@ export default function PropertyDetailsPage() {
           </button>
         </aside>
       </div>
-      <ReviewForm propertyId={id} />
-      <PropertyReviews id={id} />
+<PropertyReviewFormAndCard propertyId={id}/>
+      
     </section>
   );
 }

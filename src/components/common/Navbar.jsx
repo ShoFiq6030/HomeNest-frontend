@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import LoginAndRegistration from "../loginRegistration/LoginAndRegistration";
 import { useAuth } from "../../hooks/useAuth";
 import AddPropertyModal from "./AddPropertyModal";
+import { useLoginModal } from "./../../hooks/useLoginModal";
 
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,6 +15,7 @@ export default function Navbar() {
   const [showUserDropDown, setShowUserDropDown] = useState(false);
   const [activeTab, setActiveTab] = useState("login");
   const navigate = useNavigate();
+  const { openLoginModal, setOpenLoginModal } = useLoginModal();
 
   const handleLogout = async () => {
     try {
@@ -42,12 +44,15 @@ export default function Navbar() {
         <AddPropertyModal onClose={() => setIsAddPropertyModalOpen(false)} />
       )}
       <div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-3">
-        <LoginAndRegistration
-          isOpen={isModalOpen}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-          onClose={() => setIsModalOpen(false)}
-        />
+        {openLoginModal && (
+          <LoginAndRegistration
+            isOpen={openLoginModal}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            onClose={() => setOpenLoginModal(false)}
+          />
+        )}
+
         {/* ✅ Logo */}
         <Link to="/" className="flex items-center space-x-2">
           {/* <img src="/logo.png" alt="logo" className="h-8 w-8" /> */}

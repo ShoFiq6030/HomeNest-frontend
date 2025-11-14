@@ -34,7 +34,11 @@ export default function MyPropertiesPage() {
       ) : (
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties?.map((property) => (
-            <PropertyCard property={property} key={property._id} />
+            <PropertyCard
+              property={property}
+              key={property._id}
+              
+            />
           ))}
         </div>
       )}

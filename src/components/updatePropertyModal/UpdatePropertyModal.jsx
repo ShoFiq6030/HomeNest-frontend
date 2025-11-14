@@ -3,12 +3,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { photoUploadToCloudinary } from "../../utils/uploadImgToCloudinary";
 
-export default function UpdatePropertyModal({
-  isOpen,
-  onClose,
-  property,
-  onSuccess,
-}) {
+export default function UpdatePropertyModal({ isOpen, onClose, property }) {
   const [formData, setFormData] = useState({
     propertyName: "",
     description: "",
@@ -74,11 +69,12 @@ export default function UpdatePropertyModal({
       console.log(res);
       const data = res.data;
 
-      if (!res.ok) throw new Error(data.message || "Update failed");
+      if (!res.status === 200) throw new Error(data.message || "Update failed");
 
       toast.success("Property updated successfully!");
-      onSuccess?.(data.property);
+
       onClose();
+      window.location.reload();
     } catch (err) {
       toast.error(err.message || "Failed to update property");
     } finally {

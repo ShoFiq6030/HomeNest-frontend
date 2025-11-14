@@ -9,6 +9,7 @@ import {
   FaCamera,
   FaEdit,
   FaTrash,
+  FaCar,
 } from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
 import { FiHeart } from "react-icons/fi";
@@ -26,16 +27,20 @@ export default function PropertyCard({ property = {} }) {
     propertyName = "Real House Luxury Villa",
     location = "Est St, 77 - Central Park South, NYC",
     Bedrooms = 6,
+    Garages,
     Bath = 3,
     area = "720 sq ft",
     price = "$350,000",
     image = "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
   } = property;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  if (isDeleted) return null;
 
   const { user } = useAuth();
 
-  const handleDelete = async (id) => {
+  const handleDelete = async () => {
     if (!confirm("Are you sure you want to delete this property?")) return;
 
     try {
@@ -48,7 +53,8 @@ export default function PropertyCard({ property = {} }) {
         }
       );
       toast.success("Property deleted successfully!");
-      window.location.reload();
+      // window.location.reload();
+      setIsDeleted(true);
     } catch (err) {
       console.error(err);
       toast.error("Failed to delete property.");
@@ -58,16 +64,12 @@ export default function PropertyCard({ property = {} }) {
   const formattedPrice = price?.toLocaleString();
 
   return (
-    <div className="bg-white  w-[300px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
+    <div className="bg-white  max-w-[400px] overflow-hidden shadow-md hover:shadow-xl transition-all duration-300">
       {isModalOpen && (
         <UpdatePropertyModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
           property={property}
-          onSuccess={(updated) => {
-            // Optional: refresh list or update local state
-            console.log("Updated:", updated);
-          }}
         />
       )}
       {/* Image Section */}
@@ -123,20 +125,24 @@ export default function PropertyCard({ property = {} }) {
         </div>
 
         <p className="flex items-center text-sm text-gray-500 mt-1">
-          <FaMapMarkerAlt className="mr-2 text-gray-400" /> {location}
+          <FaMapMarkerAlt className="mr-2 text-pink-600" /> {location}
         </p>
 
         {/* Info Icons */}
         <div className="flex justify-between items-center text-sm text-gray-600 border-b mt-3 pb-3">
           <span className="flex items-center gap-2">
-            <FaBed /> {Bedrooms} Beds
+            <FaBed className="text-pink-600" /> {Bedrooms} Beds
           </span>
           <span className="flex items-center gap-2">
-            <FaBath /> {Bath} Baths
+            <FaBath className="text-pink-600" /> {Bath} Baths
           </span>
           <span className="flex items-center gap-2">
-            <FaRulerCombined /> {area}
+            <FaRulerCombined className="text-pink-600" /> {area}
           </span>
+          <div className="flex items-center">
+            <FaCar className="text-pink-500 mr-2 w-5 h-5" />
+            <span>{Garages} Garages</span>
+          </div>
         </div>
 
         {/* Price and Actions */}

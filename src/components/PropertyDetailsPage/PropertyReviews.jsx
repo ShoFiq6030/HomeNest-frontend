@@ -1,17 +1,12 @@
 import React from "react";
 import { FaStar, FaRegStar, FaUser } from "react-icons/fa";
 import { useApi } from "../../hooks/useApi";
+import { useAuth } from "../../hooks/useAuth";
 
-export default function PropertyReviews({ id }) {
-  const {
-    data = [],
-    loading,
-    error,
-  } = useApi({
-    url: `/api/reviews/all-reviews/${id}`,
-    method: "GET",
-  });
-
+export default function PropertyReviews({ reviewData,loading,error }) {
+ 
+  const { user } = useAuth();
+  console.log(user);
   if (loading)
     return (
       <div className="flex justify-center items-center py-10 text-gray-500">
@@ -26,7 +21,7 @@ export default function PropertyReviews({ id }) {
       </div>
     );
 
-  if (!data?.length)
+  if (!reviewData?.length)
     return (
       <div className="text-center text-gray-500 mt-6">
         No reviews yet. Be the first to leave a review!
@@ -36,11 +31,11 @@ export default function PropertyReviews({ id }) {
   return (
     <section className="mt-12 bg-gray-50  p-6 shadow-sm">
       <h2 className="text-2xl font-semibold text-gray-800 mb-6 border-b pb-2">
-        Customer Reviews ({data.length})
+        Customer Reviews ({reviewData?.length})
       </h2>
 
       <div className="space-y-6">
-        {data.map((review) => (
+        {reviewData?.map((review) => (
           <div
             key={review._id}
             className="bg-white p-5 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition"
@@ -48,9 +43,20 @@ export default function PropertyReviews({ id }) {
             {/* Header: User Info + Rating */}
             <div className="flex flex-col items-start mb-3 gap-2">
               <div className="flex gap-2">
-                <div className="w-12 h-12 flex items-center justify-center bg-pink-100 rounded-full">
-                  <FaUser className="text-pink-600 text-xl" />
-                </div>
+                {user?.photoURL ? (
+                  <div className="w-12 h-12 flex items-center justify-center bg-pink-100 rounded-full">
+                    <img
+                      src={user?.photoURL}
+                      alt={user?.name}
+                      className="rounded-full object-cover w-12 h-12"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-12 h-12 flex items-center justify-center bg-pink-100 rounded-full">
+                    <FaUser className="text-pink-600 text-xl" />
+                  </div>
+                )}
+
                 <div>
                   <h3 className="font-semibold text-gray-800">
                     {review.userName}

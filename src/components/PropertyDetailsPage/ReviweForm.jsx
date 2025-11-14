@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
+import { useAuth } from "./../../hooks/useAuth";
+import { toast } from "react-toastify";
+import { useLoginModal } from "../../hooks/useLoginModal";
 
-export default function ReviewForm({ propertyId, user = {} }) {
+export default function ReviewForm({ propertyId, setReviewData, reviewData }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [reviewText, setReviewText] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const { user } = useAuth();
+  const { openLoginModal, setOpenLoginModal } = useLoginModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      setOpenLoginModal(true);
+      return toast.error("Please Login for give review");
+    }
 
     if (!rating || !reviewText) {
       setMessage("Please give a rating and write a review.");
@@ -19,21 +29,35 @@ export default function ReviewForm({ propertyId, user = {} }) {
 
     try {
       setLoading(true);
-      await axios.post("/api/reviews/add-review", {
+      const token = localStorage.getItem("token");
+      const newReviewData = {
         propertyId,
-        userId: user?._id,
-        userName: user?.name,
-        userEmail: user?.email,
         rating,
         reviewText,
-      });
+      };
+      const res = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/api/reviews/add-review`,
+        newReviewData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(res);
+      setReviewData([res.data.review, ...reviewData]);
+      toast.success("✅ Review submitted successfully!");
 
       setMessage("✅ Review submitted successfully!");
       setReviewText("");
       setRating(0);
+      // window.location.reload();
     } catch (err) {
       console.error(err);
-      setMessage("❌ Failed to submit review. Please try again.");
+
+      // setMessage(err)
+      toast.error("❌ something was wrong");
+      setMessage(err.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -84,7 +108,7 @@ export default function ReviewForm({ propertyId, user = {} }) {
         <button
           type="submit"
           disabled={loading}
-          className={`w-1/4 py-3 font-semibold text-white  transition ${
+          className={`w-1/4 py-3 font-semibold rounded-lg text-white  transition ${
             loading
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-pink-600 hover:bg-pink-700"

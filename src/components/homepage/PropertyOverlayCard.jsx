@@ -45,7 +45,7 @@ export default function PropertyOverlayCard({ property }) {
 
         {/* Location */}
         <div className="flex items-center text-gray-700 mb-4">
-          <FaMapMarkerAlt className="text-gray-600 mr-2 w-4 h-4" />
+          <FaMapMarkerAlt className="text-pink-500 mr-2 w-4 h-4" />
           <span className="text-sm">{location}</span>
         </div>
 
@@ -54,22 +54,22 @@ export default function PropertyOverlayCard({ property }) {
         {/* Stats */}
         <div className="grid grid-cols-2 gap-y-4 gap-x-3 text-gray-700 text-sm">
           <div className="flex items-center">
-            <FaBed className="text-gray-500 mr-2 w-5 h-5" />
+            <FaBed className="text-pink-500 mr-2 w-5 h-5" />
             <span>{Bedrooms} Bedrooms</span>
           </div>
 
           <div className="flex items-center">
-            <FaBath className="text-gray-500 mr-2 w-5 h-5" />
+            <FaBath className="text-pink-500 mr-2 w-5 h-5" />
             <span>{Bath} Bathrooms</span>
           </div>
 
           <div className="flex items-center">
-            <FaCar className="text-gray-500 mr-2 w-5 h-5" />
+            <FaCar className="text-pink-500 mr-2 w-5 h-5" />
             <span>{Garages} Garages</span>
           </div>
 
           <div className="flex items-center">
-            <FaRulerCombined className="text-gray-500 mr-2 w-5 h-5" />
+            <FaRulerCombined className="text-pink-500 mr-2 w-5 h-5" />
             <span>{area} sq ft</span>
           </div>
         </div>
@@ -85,7 +85,7 @@ export default function PropertyOverlayCard({ property }) {
 
         {/* View Details Button */}
         {property?._id && (
-          <Link to={`/property/${_id}`}>
+          <Link to={`/all-properties/${_id}`}>
             <button className="mt-5 w-full bg-pink-600 text-white py-2 rounded-md font-semibold ">
               View Details
             </button>
