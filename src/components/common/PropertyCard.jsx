@@ -22,10 +22,10 @@ import UpdatePropertyModal from "../updatePropertyModal/UpdatePropertyModal";
 import { useLoginModal } from "../../hooks/useLoginModal";
 import ConfirmModal from "./ConfirmModal";
 
-export default function PropertyCard({ property = {} }) {
+export default function PropertyCard({ property = {}, featured = false }) {
   const {
     _id,
-    featured = false,
+
     category = "For Sale",
     propertyName = "Real House Luxury Villa",
     location = "Est St, 77 - Central Park South, NYC",
@@ -47,8 +47,6 @@ export default function PropertyCard({ property = {} }) {
   const { user } = useAuth();
 
   const handleDelete = async () => {
-
-
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_BASE_URL}/api/properties/${_id}`,
@@ -86,18 +84,27 @@ export default function PropertyCard({ property = {} }) {
       )}
       {/* Image Section */}
       <div className="relative">
-        <img src={image} alt={name} className="w-full h-56 object-cover" />
+        <img
+          src={image}
+          alt={propertyName}
+          className="w-full h-56 object-cover"
+        />
 
         {/* Labels */}
         <div className="absolute top-3 left-3 flex gap-2">
           {featured && (
-            <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-md font-semibold">
+            <span className="bg-linear-to-r from-pink-500 via-red-500 to-yellow-500 text-white text-xs px-2 py-1 rounded-sm font-semibold">
               Featured
             </span>
           )}
-          <span className="bg-pink-600 text-white text-xs px-2 py-1 rounded-md font-semibold">
+          <span className="bg-pink-600 text-white text-xs px-2 py-1 rounded-sm font-semibold">
             {category}
           </span>
+          {user?._id === property.userId && (
+            <span className="bg-green-600 text-white text-xs px-2 py-1 rounded-sm font-semibold">
+              own
+            </span>
+          )}
         </div>
 
         {/* Overlay Icons */}

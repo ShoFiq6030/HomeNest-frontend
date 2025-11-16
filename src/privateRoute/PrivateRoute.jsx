@@ -3,6 +3,7 @@ import { Navigate } from "react-router";
 import { useAuth } from "../hooks/useAuth";
 
 import { useLoginModal } from "./../hooks/useLoginModal";
+import { toast } from "react-toastify";
 
 export default function PrivateRoute({ children }) {
   const { user } = useAuth();
@@ -10,6 +11,7 @@ export default function PrivateRoute({ children }) {
 
   if (!user) {
     setOpenLoginModal(true);
+    toast.error("Unauthorized! Please Login.")
     return <Navigate to="/" replace />;
   }
 
