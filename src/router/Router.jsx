@@ -10,6 +10,7 @@ import PropertyDetailsPage from "./../pages/PropertyDetailsPage";
 import MyPropertiesPage from "../pages/MyPropertiesPage";
 import MyRatingsPage from "../pages/MyRatingsPage";
 import NotFoundPage from "./../pages/NotFoundPage";
+import PrivateRoute from "../privateRoute/PrivateRoute";
 
 let router = createBrowserRouter([
   {
@@ -29,14 +30,22 @@ let router = createBrowserRouter([
         path: "/all-properties/:id",
         element: <PropertyDetailsPage />,
       },
-      
+
       {
         path: "/my-properties",
-        element: <MyPropertiesPage />,
+        element: (
+          <PrivateRoute>
+            <MyPropertiesPage />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/my-ratings",
-        element: <MyRatingsPage />,
+        element: (
+          <PrivateRoute>
+            <MyRatingsPage />
+          </PrivateRoute>
+        ),
       },
     ],
   },
