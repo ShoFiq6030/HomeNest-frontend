@@ -3,9 +3,21 @@ import { useApi } from "../hooks/useApi";
 import PropertyCard from "../components/common/PropertyCard";
 import Loading from "../components/common/Loading";
 
+import PropertyFilters from "../components/AllPropertiesPage/PropertyFilters";
+
 export default function AllPropertiesPage() {
   const [active, setActive] = useState("All");
-  const {
+
+  // Filter states
+  const [search, setSearch] = useState("");
+  const [room, setRoom] = useState("");
+  const [bedroom, setBedroom] = useState("");
+  const [bath, setBath] = useState("");
+  const [garage, setGarage] = useState("");
+  const [sortBy, setSortBy] = useState("");
+// const [filtering, setFiltering] = useState(false);
+
+const {
     data = [],
     loading,
     error,
@@ -16,10 +28,35 @@ export default function AllPropertiesPage() {
 
   const categories = ["All", "Sale", "Commercial", "Land", "Rent"];
 
-  const filteredProperties =
-    active === "All"
-      ? data
-      : data.filter((property) => property.category === active);
+  const filteredProperties = data
+    ?.filter((property) => {
+    
+      if (active !== "All" && property.category !== active) return false;
+      if (
+        search &&
+        !property.propertyName?.toLowerCase().includes(search.toLowerCase())
+      )
+        return false;
+      if (room && property.Rooms < Number(room)) return false;
+      if (bedroom && property.Bedrooms < Number(bedroom)) return false;
+      if (bath && property.Bath < Number(bath)) return false;
+      if (garage && property.Garages < Number(garage)) return false;
+      return true;
+      
+    })
+    ?.sort((a, b) => {
+      if (sortBy === "low-high") return a.price - b.price;
+      if (sortBy === "high-low") return b.price - a.price;
+      return 0;
+    });
+
+    const handleFilterChange = (callback) => {
+  setFiltering(true); 
+  setTimeout(() => {
+    callback();      
+    setFiltering(false);
+  }, 1000); 
+};
 
   if (error)
     return (
@@ -56,23 +93,37 @@ export default function AllPropertiesPage() {
           </button>
         ))}
       </div>
-      {loading ? (
+
+      {/* Filter Component */}
+      <PropertyFilters
+        search={search}
+        setSearch={setSearch}
+        room={room}
+        setRoom={setRoom}
+        bedroom={bedroom}
+        setBedroom={setBedroom}
+        bath={bath}
+        setBath={setBath}
+        garage={garage}
+        setGarage={setGarage}
+        sortBy={sortBy}
+        setSortBy={setSortBy}
+        handleFilterChange={handleFilterChange}
+      />
+
+      {/* Property List */}
+      {loading  ? (
         <div className="flex flex-col items-center justify-center min-h-[200px]">
           <Loading />
         </div>
       ) : filteredProperties?.length > 0 ? (
         <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {filteredProperties.map((property) => (
-            <PropertyCard
-              key={property._id || property.id}
-              property={property}
-            />
+            <PropertyCard key={property._id} property={property} />
           ))}
         </div>
       ) : (
-        <div className="text-center text-gray-500">
-          No properties found in this category.
-        </div>
+        <div className="text-center text-gray-500">No properties found.</div>
       )}
     </section>
   );

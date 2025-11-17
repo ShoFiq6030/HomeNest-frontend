@@ -108,11 +108,11 @@ export default function PropertyCard({ property = {}, featured = false }) {
         </div>
 
         {/* Overlay Icons */}
-        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-3 bg-white/90 px-4 py-2 rounded-full shadow-sm">
-          <FaLink className="cursor-pointer hover:text-red-500 transition" />
-          {/* <FaVideo className="cursor-pointer hover:text-red-500 transition" /> */}
-          <FaCamera className="cursor-pointer hover:text-red-500 transition" />
-        </div>
+        {/* <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-3 bg-white/90 px-4 py-2 rounded-full shadow-sm"> */}
+        {/* <FaLink className="cursor-pointer hover:text-red-500 transition" /> */}
+        {/* <FaVideo className="cursor-pointer hover:text-red-500 transition" /> */}
+        {/* <FaCamera className="cursor-pointer hover:text-red-500 transition" />
+        </div> */}
       </div>
 
       {/* Property Details */}
