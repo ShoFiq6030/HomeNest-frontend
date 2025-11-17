@@ -11,6 +11,7 @@ import MyPropertiesPage from "../pages/MyPropertiesPage";
 import MyRatingsPage from "../pages/MyRatingsPage";
 import NotFoundPage from "./../pages/NotFoundPage";
 import PrivateRoute from "../privateRoute/PrivateRoute";
+import UserProfilePage from "../pages/UserProfilePage";
 
 let router = createBrowserRouter([
   {
@@ -44,6 +45,14 @@ let router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <MyRatingsPage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/profile/:id",
+        element: (
+          <PrivateRoute>
+            <UserProfilePage />
           </PrivateRoute>
         ),
       },

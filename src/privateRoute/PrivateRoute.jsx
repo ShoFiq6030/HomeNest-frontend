@@ -4,10 +4,15 @@ import { useAuth } from "../hooks/useAuth";
 
 import { useLoginModal } from "./../hooks/useLoginModal";
 import { toast } from "react-toastify";
+import Loading from "../components/common/Loading";
 
 export default function PrivateRoute({ children }) {
-  const { user } = useAuth();
+  const { user,authLoading } = useAuth();
   const { setOpenLoginModal } = useLoginModal();
+
+  if(authLoading){
+    return <Loading/>
+  }
 
   if (!user) {
     setOpenLoginModal(true);

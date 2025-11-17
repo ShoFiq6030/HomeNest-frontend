@@ -128,9 +128,13 @@ export default function Navbar() {
               </div>
               {showUserDropDown && (
                 <div className="absolute right-0 mt-3   bg-white rounded-lg shadow-md border w-48 p-3 text-sm">
-                  <p className="font-medium text-gray-800 truncate">
+                  <Link
+                    to={`/profile/${user._id}`}
+                    className="font-medium text-gray-800 truncate cursor-pointer hover:underline"
+                    onClick={() => setShowUserDropDown(false)}
+                  >
                     {user.name || "User"}
-                  </p>
+                  </Link>
                   <p className="text-gray-500 text-xs mb-2 truncate">
                     {user.email}
                   </p>
