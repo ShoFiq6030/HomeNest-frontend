@@ -57,16 +57,15 @@ export default function AddPropertyModal({ onClose }) {
         return;
       }
 
-      //  Create new data payload
       const newFormData = {
         ...formData,
-        image: imageUrl, // Replaced with Cloudinary URL
+        image: imageUrl, 
         userId: user._id,
         userName: user.name,
         userEmail: user.email,
       };
 
-      //  Send to backend
+      
       const token = localStorage.getItem("token");
 
       await axios.post(
@@ -283,7 +282,11 @@ export default function AddPropertyModal({ onClose }) {
               loading ? "opacity-60 cursor-not-allowed" : ""
             }`}
           >
-            {loading ? "Submitting..." : "Add Property"}
+            {loading ? (
+              <span className="loading loading-spinner loading-xs"></span>
+            ) : (
+              "Add Property"
+            )}
           </button>
         </form>
       </div>

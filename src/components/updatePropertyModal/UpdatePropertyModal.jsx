@@ -20,7 +20,7 @@ export default function UpdatePropertyModal({ isOpen, onClose, property }) {
   });
 
   const [loading, setLoading] = useState(false);
-  const {theme}=useTheme()
+  const { theme } = useTheme();
 
   // Fill form when modal opens or property changes
   useEffect(() => {
@@ -29,17 +29,19 @@ export default function UpdatePropertyModal({ isOpen, onClose, property }) {
         propertyName: property.propertyName || "",
         description: property.description || "",
         category: property.category || "",
-        price: property.price || "",
-        Rooms: property.Rooms || "",
-        Bedrooms: property.Bedrooms || "",
-        Bath: property.Bath || "",
-        Garages: property.Garages || "",
-        location: property.location || "",
-        image: property.image || "",
-        area: property.area || "",
+        price: property.price,
+        Rooms: property.Rooms,
+        Bedrooms: property.Bedrooms,
+        Bath: property.Bath,
+        Garages: property.Garages,
+        location: property.location,
+        image: property.image,
+        area: property.area,
       });
     }
   }, [property, isOpen]);
+
+  console.log(property, property.area);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -100,7 +102,11 @@ export default function UpdatePropertyModal({ isOpen, onClose, property }) {
 
       {/* Modal */}
       <div className="fixed inset-0 flex items-center justify-center z-250 p-4">
-        <div className={` ${theme==="dark"?'bg-gray-500 ':"bg-white"} rounded-lg shadow-xl w-full max-w-3xl max-h-screen overflow-y-auto`}>
+        <div
+          className={` ${
+            theme === "dark" ? "bg-gray-500 " : "bg-white"
+          } rounded-lg shadow-xl w-full max-w-3xl max-h-screen overflow-y-auto`}
+        >
           <div className="flex justify-between items-center p-6 border-b">
             <h2 className="text-2xl font-bold">Update Property</h2>
             <button

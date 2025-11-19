@@ -284,7 +284,11 @@ export default function LoginAndRegistration({
                 disabled={loading}
                 className="w-full bg-pink-600 text-white py-3 rounded-md font-semibold hover:bg-pink-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Log In
+                {loading ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : (
+                  " Log In"
+                )}
               </button>
 
               <div className="flex justify-between items-center mt-4 text-sm">
@@ -328,7 +332,11 @@ export default function LoginAndRegistration({
                   loading && "cursor-not-allowed"
                 }`}
               >
-                {loading ? "Submitting...." : "Register"}
+                {loading ? (
+                  <span className="loading loading-spinner loading-xs"></span>
+                ) : (
+                  "Register"
+                )}
               </button>
             </form>
           )}

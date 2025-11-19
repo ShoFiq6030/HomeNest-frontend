@@ -23,18 +23,18 @@ import { useLoginModal } from "../../hooks/useLoginModal";
 import ConfirmModal from "./ConfirmModal";
 import { useTheme } from "../../hooks/useTheme";
 
-export default function PropertyCard({ property = {}, featured = false }) {
+export default function PropertyCard({ property, featured = false }) {
   const {
     _id,
 
     category = "For Sale",
     propertyName = "Real House Luxury Villa",
     location = "Est St, 77 - Central Park South, NYC",
-    Bedrooms = 6,
+    Bedrooms = 0,
     Garages,
-    Bath = 3,
-    area = "720 sq ft",
-    price = "$350,000",
+    Bath = 0,
+    area = "0 sq ft",
+    price = "0",
     image = "https://images.unsplash.com/photo-1570129477492-45c003edd2be",
     createdAt,
   } = property;
