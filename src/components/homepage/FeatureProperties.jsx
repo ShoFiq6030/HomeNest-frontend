@@ -13,7 +13,7 @@ export default function FeatureProperties() {
     .slice(0, 6);
 
   return (
-    <div className=" my-10 container mx-auto">
+    <section id="feature-properties" className=" my-10 container mx-auto">
       <div className="text-center flex flex-col gap-4 m-10">
         <h2 className="text-4xl font-bold">
           <span className="text-pink-500">Feature</span> Properties{" "}
@@ -30,6 +30,6 @@ export default function FeatureProperties() {
           />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

@@ -15,7 +15,9 @@ export default function Footer() {
         {/* Company Info */}
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <h2 className="text-white text-xl font-semibold">HomeNest</h2>
+            {/* <h2 className="text-white text-xl font-semibold">HomeNest</h2>
+             */}
+             <img src="/logo.png" alt="logo" className="h-12 " />
           </div>
           <p className="text-sm mb-4 leading-relaxed">
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum

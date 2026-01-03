@@ -14,7 +14,7 @@ export default function ForSellSection() {
   // console.log(forSellData);
 
   return (
-    <div className=" my-10 container mx-auto">
+    <section id="properties-for-sale" className=" my-10 container mx-auto">
       <div className="text-center flex flex-col gap-4 m-10">
         <h2 className="text-4xl font-bold">
           Properties for <span className="text-pink-500">Sale</span>{" "}
@@ -27,6 +27,6 @@ export default function ForSellSection() {
           <PropertyCard property={property} key={property._id} />
         ))}
       </div>
-    </div>
+    </section>
   );
 }

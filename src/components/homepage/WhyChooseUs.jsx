@@ -54,6 +54,7 @@ export default function WhyChooseUs() {
 
   return (
     <section
+      id="why-choose-us"
       className={` ${
         theme === "dark" ? "bg-gray-600 text-white" : "bg-gray-50"
       } py-16 px-6 md:px-20`}

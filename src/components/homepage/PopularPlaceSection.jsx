@@ -44,6 +44,7 @@ export default function PopularPlaceSection() {
 
   return (
     <section
+      id="most-popular-places"
       className={`py-16  ${
         theme === "dark" ? "bg-gray-600" : "bg-gray-50"
       }  relative overflow-hidden`}
