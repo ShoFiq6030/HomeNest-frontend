@@ -34,6 +34,7 @@ export default function Navbar() {
   const navItems = [
     { name: "Home", path: "/" },
     { name: "All Properties", path: "/all-properties" },
+    { name: "About", path: "/about" },
     // protected routes shown only when logged in
     { name: "My Properties", path: "/my-properties", private: true },
     { name: "My Ratings", path: "/my-ratings", private: true },

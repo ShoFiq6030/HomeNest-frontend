@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router";
 
 import RootLayout from "../layout/RootLayout";
 import HomePage from "./../pages/HomePage";
+import About from "../pages/About";
 
 import AllPropertiesPage from "../pages/AllPropertiesPage";
 import PropertyDetailsPage from "./../pages/PropertyDetailsPage";
@@ -26,6 +27,10 @@ let router = createBrowserRouter([
       {
         path: "/all-properties",
         element: <AllPropertiesPage />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       {
         path: "/all-properties/:id",
