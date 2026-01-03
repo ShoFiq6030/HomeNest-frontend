@@ -2,7 +2,7 @@
 
 Welcome to **HomeNest**, a modern real estate platform where users can browse, search, and filter properties to find their dream homes. This project showcases frontend development skills using **React.js**, **Tailwind CSS**, and **Axios** for API communication.
 
-🌐 **Live Site:** [HomeNest](https://ph-assignment-10-frontend-dun.vercel.app/)
+🌐 **Live Site:** [HomeNest](https://home-nest-frontend.vercel.app/)
 
 ---
 
@@ -30,7 +30,7 @@ Welcome to **HomeNest**, a modern real estate platform where users can browse, s
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/ShoFiq6030/PH_Assignment-10-frontend.git
+   git clone https://github.com/ShoFiq6030/HomeNest-frontend.git
    ```
 2. Install dependencies:
 
