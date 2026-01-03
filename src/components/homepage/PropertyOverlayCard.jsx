@@ -12,7 +12,7 @@ import { useTheme } from "../../hooks/useTheme";
 export default function PropertyOverlayCard({ property }) {
   // Destructure with defaults
   // console.log(property);
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
   const {
     category = "FOR SALE",
     propertyName = "House Luxury Villa",
@@ -29,7 +29,7 @@ export default function PropertyOverlayCard({ property }) {
   const formattedPrice = price?.toLocaleString();
 
   return (
-    <div className={`relative lg:w-full h-40 max-w-sm mr-10  `}>
+    <div className={`relative -top-10 lg:-top-20 lg:w-full h-40 max-w-sm md:mr-10  `}>
       {/* FOR SALE Tag */}
       <div className="absolute -top-3 left-4 z-10 ">
         <span className="bg-pink-600 text-white uppercase text-xs font-semibold tracking-wider px-4 py-1 ">

@@ -54,7 +54,7 @@ export default function ContactSection() {
   };
   return (
     <section
-      className="relative py-20 bg-cover bg-center"
+      className="relative  py-20 bg-cover bg-center"
       style={{ backgroundImage: `url(${sectionBgUrl})` }}
     >
       {/* Overlay for the whole section (darken and blur) */}
