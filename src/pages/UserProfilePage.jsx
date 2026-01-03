@@ -1,14 +1,16 @@
 import React from "react";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useApi } from "../hooks/useApi";
 import Loading from "../components/common/Loading";
 import { useTheme } from "../hooks/useTheme";
+import { useAuth } from "./../hooks/useAuth";
 
 export default function UserProfilePage() {
   const { id } = useParams();
   const { theme } = useTheme();
+  const { user } = useAuth();
   const {
-    data: user,
+    data: userData,
     loading,
     error,
   } = useApi({
@@ -20,9 +22,9 @@ export default function UserProfilePage() {
     return (
       <p className="text-red-500 text-center mt-6">Error... please try again</p>
     );
-  if (!user) return null;
+  if (!userData) return null;
 
-  const initials = user?.name
+  const initials = userData?.name
     ?.split(" ")
     .map((n) => n[0])
     .join("");
@@ -37,9 +39,9 @@ export default function UserProfilePage() {
         {/* Profile Header */}
         <div className="flex flex-col items-center">
           {/* Avatar */}
-          {user.photoURL ? (
+          {userData.photoURL ? (
             <img
-              src={user.photoURL}
+              src={userData.photoURL}
               alt="User Avatar"
               className="w-28 h-28 rounded-full object-cover border-4 border-pink-500 shadow-md"
             />
@@ -49,8 +51,8 @@ export default function UserProfilePage() {
             </div>
           )}
 
-          <h2 className="text-2xl font-semibold mt-4">{user.name}</h2>
-          <p className="text-gray-500">{user.email}</p>
+          <h2 className="text-2xl font-semibold mt-4">{userData.name}</h2>
+          <p className="text-gray-500">{userData.email}</p>
         </div>
 
         {/* Divider */}
@@ -64,22 +66,24 @@ export default function UserProfilePage() {
 
           <p className="flex justify-between">
             <span className="font-medium">User ID:</span>
-            <span className="text-gray-600">{user._id}</span>
+            <span className="text-gray-600">{userData._id}</span>
           </p>
 
           <p className="flex justify-between">
             <span className="font-medium">Email:</span>
-            <span className="text-gray-600">{user.email}</span>
+            <span className="text-gray-600">{userData.email}</span>
           </p>
           <p className="flex justify-between">
             <span className="font-medium">Email verify:</span>
-            <span className="text-gray-600">{user.emailVerify || "false"}</span>
+            <span className="text-gray-600">
+              {userData.emailVerify || "false"}
+            </span>
           </p>
 
           <p className="flex justify-between">
             <span className="font-medium">Account Created:</span>
             <span className="text-gray-600">
-              {new Date(user.createdAt).toLocaleDateString("en-US", {
+              {new Date(userData.createdAt).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -89,11 +93,26 @@ export default function UserProfilePage() {
         </div>
 
         {/* Additional Action Section */}
-        {/* <div className="mt-8 text-center">
+        <div className="mt-8 text-center flex gap-4 ">
           <button className="bg-pink-600 text-white px-6 py-2 rounded-lg shadow hover:bg-pink-700 transition">
             Edit Profile
           </button>
-        </div> */}
+          {/* <button className="bg-pink-600 text-white px-6 py-2 rounded-lg shadow hover:bg-pink-700 transition">
+            change password
+          </button> */}
+          {user && (
+            <Link
+              to={
+                user.role === "admin"
+                  ? `/dashboard/admin/${id}`
+                  : `/dashboard/user/${id}`
+              }
+              className="bg-pink-600 text-white px-6 py-2 rounded-lg shadow hover:bg-pink-700 transition"
+            >
+              Dashboard
+            </Link>
+          )}
+        </div>
       </div>
     </section>
   );

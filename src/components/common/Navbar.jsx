@@ -20,6 +20,7 @@ export default function Navbar() {
   const navigate = useNavigate();
   const { openLoginModal, setOpenLoginModal } = useLoginModal();
   const { theme } = useTheme();
+  // console.log(user);
 
   const handleLogout = async () => {
     try {
@@ -301,7 +302,7 @@ export default function Navbar() {
                   }`}
                 >
                   <Link
-                    to={`/profile/${user?.id}`}
+                    to={`/profile/${user?._id}`}
                     className="font-medium truncate cursor-pointer hover:underline"
                     onClick={() => setShowUserDropDown(false)}
                   >

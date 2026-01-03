@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 import { photoUploadToCloudinary } from "../../utils/uploadImgToCloudinary";
 import { useTheme } from "../../hooks/useTheme";
 
-export default function AddPropertyModal({ onClose }) {
+export default function AddPropertyModal({ onClose, onSuccess }) {
   const [formData, setFormData] = useState({
     propertyName: "",
     description: "",
@@ -59,13 +59,12 @@ export default function AddPropertyModal({ onClose }) {
 
       const newFormData = {
         ...formData,
-        image: imageUrl, 
+        image: imageUrl,
         userId: user._id,
         userName: user.name,
         userEmail: user.email,
       };
 
-      
       const token = localStorage.getItem("token");
 
       await axios.post(
@@ -93,7 +92,13 @@ export default function AddPropertyModal({ onClose }) {
         area: "",
       });
 
-      navigate("/my-properties?refresh=" + Date.now());
+      // Call parent supplied callback (useful for staying on dashboard), otherwise navigate to my-properties
+      if (onSuccess && typeof onSuccess === "function") {
+        onSuccess();
+      } else {
+        navigate("/my-properties?refresh=" + Date.now());
+      }
+
       onClose();
     } catch (err) {
       console.error(err);

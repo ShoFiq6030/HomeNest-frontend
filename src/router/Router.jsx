@@ -13,6 +13,8 @@ import MyRatingsPage from "../pages/MyRatingsPage";
 import NotFoundPage from "./../pages/NotFoundPage";
 import PrivateRoute from "../privateRoute/PrivateRoute";
 import UserProfilePage from "../pages/UserProfilePage";
+import AdminDashboard from "../pages/AdminDashboard";
+import UserDashboard from "../pages/UserDashboard";
 
 let router = createBrowserRouter([
   {
@@ -62,6 +64,22 @@ let router = createBrowserRouter([
         element: (
           <PrivateRoute>
             <UserProfilePage />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/admin/:useId",
+        element: (
+          <PrivateRoute roles={["admin"]}>
+            <AdminDashboard />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/user/:useId",
+        element: (
+          <PrivateRoute roles={["user"]}>
+            <UserDashboard />
           </PrivateRoute>
         ),
       },
